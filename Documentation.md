@@ -88,3 +88,8 @@ That way, first load grabs your files and articles, and after that it’s instan
 Want me to walk you through testing offline mode so you can confirm it’s really working?
 Niceee 🎉
 You’ve basically built a super low-bandwidth, offline-capable news app — and that’s exactly how WhatsApp, Twitter Lite, and Google News Lite work under the hood.
+
+
+Alright — let’s make your app installable like a native app 📱 so people can “Add to Home Screen” and launch it without a browser bar.
+
+For that, we just need to add a Web App Manifest file and link it in your HTML.
