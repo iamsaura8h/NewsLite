@@ -93,3 +93,76 @@ You’ve basically built a super low-bandwidth, offline-capable news app — and
 Alright — let’s make your app installable like a native app 📱 so people can “Add to Home Screen” and launch it without a browser bar.
 
 For that, we just need to add a Web App Manifest file and link it in your HTML.
+
+Step 2 — Bandwidth-first improvements
+We want:
+
+Fewer requests → Bundle/minify CSS/JS, combine small JSON/text into one file.
+
+Smaller images → Convert icons to WebP or SVG.
+
+Compression → Gzip/Brotli for all text assets.
+
+Lazy loading → Don’t fetch articles until clicked.
+
+Step 3 — Target state
+Requests: <5 total
+
+Total size: <10 KB text, <10 KB images
+
+First render: under 1 sec even at 64 kbps
+
+Offline caching: only essential assets in initial cache, defer the rest
+
+Step 4 — Plan
+Inline styles.css into index.html (removes 1 request)
+
+Minify app.js and inline small JSON for headlines.
+
+Use one 192px icon in WebP (remove large 512px PNG from first load)
+
+Delay article fetch until user clicks headline.
+
+Add compression if using Express or similar later (or serve precompressed files for static hosting).
+
+✅ Already Done
+
+Static HTML, CSS, JS setup
+
+Headlines loading from local JSON
+
+Basic service worker for caching
+
+🔹 Still Needed for MVP
+
+Real data source
+
+Replace the static headlines.json with a tiny JSON feed (can still be fake for now but updated occasionally).
+
+Ensure JSON is under 1–2 KB by stripping unused fields.
+
+Minimal article view
+
+Click a headline → load just that article text.
+
+No images unless extremely compressed (or lazy-loaded).
+
+Lightweight styling
+
+Inline critical CSS, defer anything non-essential.
+
+Keep CSS < 2 KB.
+
+Caching strategy
+
+Cache HTML, CSS, JS, and headlines JSON for instant reload.
+
+Stale-while-revalidate for the feed so we can refresh without blocking.
+
+Offline fallback
+
+Simple “You’re offline” screen if no cached data.
+
+Basic installability (optional for MVP, but very small overhead)
+
+Manifest file + tiny icons so users can pin it like an app.

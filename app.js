@@ -1,28 +1,31 @@
-// Register the service worker for offline support
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-    .then(() => console.log('Service Worker registered'))
-    .catch(err => console.error('SW registration failed:', err));
-}
-
-
 async function loadHeadlines() {
-  const res = await fetch('data/headlines.json');
-  const headlines = await res.json();
-  const list = document.getElementById('news-list');
-  list.innerHTML = '';
-  headlines.forEach(h => {
-    const li = document.createElement('li');
-    li.textContent = h.title;
-    li.onclick = () => loadArticle(h.file);
-    list.appendChild(li);
-  });
+  try {
+    const res = await fetch('/data/headlines.json');
+    const headlines = await res.json();
+    const list = document.getElementById('news-list');
+    list.innerHTML = '';
+
+    headlines.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item.title;
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', () => loadArticle(item.id));
+      list.appendChild(li);
+    });
+  } catch (err) {
+    console.error('Error loading headlines:', err);
+  }
 }
 
-async function loadArticle(filename) {
-  const res = await fetch(`data/articles/${filename}`);
-  const text = await res.text();
-  document.getElementById('article').textContent = text;
+async function loadArticle(id) {
+  try {
+    const res = await fetch(`/data/articles/${id}.json`);
+    const article = await res.json();
+    const container = document.getElementById('article');
+    container.innerHTML = `<h2>${article.title}</h2><p>${article.content}</p>`;
+  } catch (err) {
+    console.error('Error loading article:', err);
+  }
 }
 
 loadHeadlines();
