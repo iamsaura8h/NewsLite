@@ -1,0 +1,4 @@
+body { font-family: sans-serif; padding: 10px; }
+h1 { font-size: 20px; }
+#news-list li { cursor: pointer; margin: 5px 0; }
+#article { margin-top: 20px; }
