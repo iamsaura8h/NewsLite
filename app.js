@@ -1,3 +1,11 @@
+// Register the service worker for offline support
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(() => console.log('Service Worker registered'))
+    .catch(err => console.error('SW registration failed:', err));
+}
+
+
 async function loadHeadlines() {
   const res = await fetch('data/headlines.json');
   const headlines = await res.json();
