@@ -166,3 +166,64 @@ Simple “You’re offline” screen if no cached data.
 Basic installability (optional for MVP, but very small overhead)
 
 Manifest file + tiny icons so users can pin it like an app.
+
+1. News API (like NewsAPI.org)
+What it is: A JSON endpoint that gives you news headlines.
+
+Pros:
+
+Clean, consistent JSON (easy to parse).
+
+Can filter by language, category, etc.
+
+Cons:
+
+Needs API key (you must sign up).
+
+Has rate limits (e.g., 100 requests/day).
+
+If the provider changes terms, your app may break.
+
+2. RSS Feed
+What it is: An XML feed published by almost every news site (e.g., BBC, Reuters, NDTV).
+
+Pros:
+
+No sign-up, no API key.
+
+Many free sources.
+
+Works forever unless the site shuts it down.
+
+Cons:
+
+Comes in XML (slightly bigger than JSON).
+
+Needs a bit of parsing before use.
+
+Less standardized filtering.
+
+💡 Industry POV for a lightweight 64kbps app:
+For MVP, RSS is better — no rate limits, no signup hassle, and we can cache results easily.
+Later, if you want smarter filtering or richer data, we can switch to an API without changing much in the front end.
+
+I suggest we start with RSS and cache the latest 5 items on the server so the client downloads only a few KB.
+
+
+
+<!-- to add later -->
+Next in Step 3 we can make it offline-capable with service worker caching so the user can open already-read articles without fetching them again.
+
+Step 4 — Service worker caching
+
+Cache index.html, styles.css, app.js, /data/headlines.json, and loaded articles.
+
+Use stale-while-revalidate so it shows cached content instantly and updates in the background.
+
+Step 5 — Offline fallback
+
+Add a small HTML/JS message when offline and no cache available.
+
+Step 6 — Manifest & icons (optional but easy)
+
+Add manifest.json and 1–2 small PNG icons (32×32 and 192×192) so users can “install” it.
