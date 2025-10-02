@@ -15,12 +15,12 @@
         <h1>📰 News Lite</h1>
         <button id="menu-btn">☰</button>
       </header>
-      
+
       <main>
         <nav id="sidebar">
           <ul id="news-list"></ul>
         </nav>
-        
+
         <article id="article">
           <div class="placeholder">
             <h2>Welcome to News Lite</h2>
@@ -29,7 +29,17 @@
         </article>
       </main>
     </div>
-    
+
     <script src="app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("sw.js")
+            .then((reg) => console.log("Service Worker registered:", reg.scope))
+            .catch((err) => console.error("SW registration failed:", err));
+        });
+      }
+    </script>
   </body>
 </html>

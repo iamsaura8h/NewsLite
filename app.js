@@ -15,13 +15,20 @@ async function loadHeadlines() {
 
   try {
     xml = await fetchRSS(source);
+    // ✅ Save fetched feed
+    localStorage.setItem("cachedFeed", new XMLSerializer().serializeToString(xml));
   } catch (err) {
-    console.error(err);
-    list.innerHTML = "<li>⚠️ Unable to load news right now.</li>";
-    return;
+    console.warn("Offline → loading cached headlines");
+    const cached = localStorage.getItem("cachedFeed");
+    if (!cached) {
+      list.innerHTML = "<li>⚠️ No headlines available.</li>";
+      return;
+    }
+    xml = new DOMParser().parseFromString(cached, "application/xml");
   }
 
   const items = Array.from(xml.querySelectorAll("item")).slice(0, 5);
+  list.innerHTML = "";
   items.forEach(item => {
     const title = item.querySelector("title")?.textContent || "";
     const link = item.querySelector("link")?.textContent || "";
